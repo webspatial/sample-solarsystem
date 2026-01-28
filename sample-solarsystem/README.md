@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# WebSpatial Solar System — React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a multi‑page React + TypeScript + Vite demo wired to the WebSpatial SDK. It runs on the web and packages for Apple Vision Pro (AVP) via the WebSpatial builder.
 
-Currently, two official plugins are available:
+## Prerequisites
+- Node.js 18+
+- pnpm
+- macOS with Xcode and visionOS Simulator (for AVP packaging)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Install
+```bash
+pnpm install
+pnpm run dev
+```
+Open http://localhost:5173/ to see the demo menu. Individual pages:
+- /dynamic-3d.html
+- /static-model.html
+- /multi-scene.html
+- /scene-overview.html, /scene-inner.html, /scene-outer.html, /scene-sun.html
 
-## React Compiler
+## WebSpatial SDK Integration
+- React SDK and core SDK installed in app package.json
+- Vite plugin configured to inject XR_ENV and handle AVP base paths
+  - See [vite.config.ts](./vite.config.ts)
+- TypeScript JSX compiled through WebSpatial React SDK
+  - See [tsconfig.app.json](./tsconfig.app.json) and [tsconfig.node.json](./tsconfig.node.json)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Run for AVP (visionOS)
+Run a standard dev server in one terminal:
+```bash
+pnpm run dev:web
+```
+Run an AVP dev server in another terminal:
+```bash
+pnpm run dev:avp
+```
+Note the AVP URL printed in the terminal, e.g.:
+```
+Local: http://localhost:5173/webspatial/avp/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Package and Run in visionOS Simulator
+With the AVP dev server running, package the app and launch the simulator:
+```bash
+pnpm dlx webspatial-builder run --base=http://localhost:5173/webspatial/avp/
 ```
+Replace the base URL with the AVP dev server URL shown in your terminal.
+
+## Web App Manifest (AVP)
+Minimal manifest is provided at public/manifest.webmanifest and linked to all pages. It includes scene defaults required by the builder:
+```json
+{
+  "name": "WebSpatial Solar System",
+  "short_name": "SolarSystem",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "xr_main_scene": {
+    "default_size": { "width": 500, "height": 1000 }
+  },
+  "icons": [
+    { "src": "/vite.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
+```
+Adjust default_size to fit your preferred start scene dimensions in AVP.
+
+## Build and Deploy (Web)
+```bash
+pnpm run build
+```
+This produces a multi‑page build under sample-solarsystem/dist suitable for Vercel. A root vercel.json is included to build the app subfolder.
+
+## Notes
+- Static model assets live under public/modelasset/ and are served at /modelasset/*. Ensure those files exist for the model demo to render correctly.
+- In AVP, the app uses the injected base path (/webspatial/avp/) automatically. Multi‑scene links are AVP‑safe and will open pages under that base when XR_ENV=avp.
+- Vite configuration can be conditionally controlled by mode/command. See Vite docs: https://vite.dev/config/

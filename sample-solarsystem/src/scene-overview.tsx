@@ -66,3 +66,4 @@ const root = document.getElementById('scene-root')
 if (root) {
   ReactDOM.createRoot(root).render(<OverviewScene />)
 }
+export default OverviewScene

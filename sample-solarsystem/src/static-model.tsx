@@ -1,30 +1,33 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  Model,
-  enableDebugTool,
-  ModelRef,
-} from '@webspatial/react-sdk'
+import { SpatializedStatic3DElementContainer as Model, enableDebugTool } from '@webspatial/react-sdk'
+import type { SpatializedStatic3DElementRef } from '@webspatial/react-sdk'
 
 enableDebugTool()
 
 function StaticModelDemo() {
+  const XR_ENV: string | undefined =
+    (window as unknown as { XR_ENV?: string }).XR_ENV ??
+    (import.meta as unknown as { env?: { XR_ENV?: string } }).env?.XR_ENV
+  const BASE: string = typeof (window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__ === 'string'
+    ? String((window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__)
+    : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
   const [modelScale, setModelScale] = useState(1)
   const [modelRotation, setModelRotation] = useState({ x: 0, y: 0, z: 0 })
   const [showInfo, setShowInfo] = useState(false)
   const [time, setTime] = useState(0)
-  const modelRef = React.useRef<ModelRef>(null)
+  const modelRef = React.useRef<SpatializedStatic3DElementRef | null>(null)
   const planets = [
-    { name: 'Sun', src: '/public/modelasset/sun.usdz' },
-    { name: 'Mercury', src: '/public/modelasset/mercury.usdz' },
-    { name: 'Venus', src: '/public/modelasset/venus.usdz' },
-    { name: 'Earth', src: '/public/modelasset/earth.usdz' },
-    { name: 'Mars', src: '/public/modelasset/mars.usdz' },
-    { name: 'Jupiter', src: '/public/modelasset/jupiter.usdz' },
-    { name: 'Saturn', src: '/public/modelasset/saturn.usdz' },
-    { name: 'Uranus', src: '/public/modelasset/uranus.usdz' },
-    { name: 'Neptune', src: '/public/modelasset/neptune.usdz' },
-    { name: 'Pluto', src: '/public/modelasset/pluto.usdz' },
+    { name: 'Sun', src: `${BASE}modelasset/sun.usdz` },
+    { name: 'Mercury', src: `${BASE}modelasset/mercury.usdz` },
+    { name: 'Venus', src: `${BASE}modelasset/venus.usdz` },
+    { name: 'Earth', src: `${BASE}modelasset/earth.usdz` },
+    { name: 'Mars', src: `${BASE}modelasset/mars.usdz` },
+    { name: 'Jupiter', src: `${BASE}modelasset/jupiter.usdz` },
+    { name: 'Saturn', src: `${BASE}modelasset/saturn.usdz` },
+    { name: 'Uranus', src: `${BASE}modelasset/uranus.usdz` },
+    { name: 'Neptune', src: `${BASE}modelasset/neptune.usdz` },
+    { name: 'Pluto', src: `${BASE}modelasset/pluto.usdz` },
   ]
   const [planetIndex, setPlanetIndex] = useState(3)
   const orbitRadius = 10
@@ -96,7 +99,6 @@ function StaticModelDemo() {
 
       <div style={{ position: 'relative', height: '360px' }}>
         <Model
-          enable-xr
           ref={modelRef}
           src={planets[planetIndex].src}
           style={{
@@ -108,7 +110,7 @@ function StaticModelDemo() {
             borderRadius: '16px',
             background: 'rgba(0,0,0,0.3)'
           }}
-          onSpatialDragStart={(e) => {}}
+          onSpatialDragStart={() => {}}
           onSpatialDrag={(e) => {
             const delta = e.detail.translation3D
             setModelRotation(prev => ({
@@ -124,7 +126,6 @@ function StaticModelDemo() {
 
         {showInfo && (
           <div
-            enable-xr
             style={{
               position: 'absolute',
               left: '50%',
@@ -179,3 +180,4 @@ const root = document.getElementById('demo-root')
 if (root) {
   ReactDOM.createRoot(root).render(<StaticModelDemo />)
 }
+export default StaticModelDemo

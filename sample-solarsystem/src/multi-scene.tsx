@@ -3,24 +3,32 @@ import { createRoot } from 'react-dom/client';
  
 
 const MultiSceneDemo = () => {
+  const XR_ENV: string | undefined =
+    (window as unknown as { XR_ENV?: string }).XR_ENV ??
+    (import.meta as unknown as { env?: { XR_ENV?: string } }).env?.XR_ENV
+
+  const BASE: string = typeof (window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__ === 'string'
+    ? String((window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__)
+    : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
+
   const openPage = (path: string, title: string) => {
-    const url = `${window.location.origin}${path}`;
+    const url = `${window.location.origin}${BASE}${path}`;
     window.open(url, title);
   };
 
   const openScene = (name: string, title: string) => {
     switch (name) {
       case 'overview':
-        openPage('/src/scene-overview.html', title);
+        openPage('scene-overview.html', title);
         break;
       case 'inner':
-        openPage('/src/scene-inner.html', title);
+        openPage('scene-inner.html', title);
         break;
       case 'outer':
-        openPage('/src/scene-outer.html', title);
+        openPage('scene-outer.html', title);
         break;
       case 'sun':
-        openPage('/src/scene-sun.html', title);
+        openPage('scene-sun.html', title);
         break;
       default:
         break;
@@ -88,3 +96,4 @@ if (container) {
   const root = createRoot(container);
   root.render(<MultiSceneDemo />);
 }
+export default MultiSceneDemo

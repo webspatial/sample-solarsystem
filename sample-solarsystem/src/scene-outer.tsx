@@ -58,3 +58,4 @@ const root = document.getElementById('scene-root')
 if (root) {
   ReactDOM.createRoot(root).render(<OuterPlanetsScene />)
 }
+export default OuterPlanetsScene

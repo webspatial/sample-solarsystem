@@ -61,7 +61,7 @@ function Dynamic3DDemo() {
             />
           </Entity>
 
-          {planets.slice(1).map((planet, index) => {
+          {planets.slice(1).map((planet) => {
             const angle = animationTime * planet.speed
             const x = Math.cos(angle) * planet.distance
             const z = Math.sin(angle) * planet.distance
@@ -94,3 +94,4 @@ const root = document.getElementById('demo-root')
 if (root) {
   ReactDOM.createRoot(root).render(<Dynamic3DDemo />)
 }
+export default Dynamic3DDemo

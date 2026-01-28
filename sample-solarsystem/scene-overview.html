@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<%- XR_ENV === 'avp' ? `
+<html lang="en" class="is-spatial">
+` : `
+<html lang="en">
+` %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System — Overview</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <style>
+      body { margin: 0; background: #000; color: #fff; }
+      .container { height: 100vh; display: flex; align-items: center; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="scene-root"></div>
+    </div>
+    <script type="module" src="/src/scene-overview.tsx"></script>
+  </body>
+  </html>

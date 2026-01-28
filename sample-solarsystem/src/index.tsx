@@ -1,6 +1,12 @@
 import React from 'react'
 
 export default function Index() {
+  const XR_ENV: string | undefined =
+    (window as unknown as { XR_ENV?: string }).XR_ENV ??
+    (import.meta as unknown as { env?: { XR_ENV?: string } }).env?.XR_ENV
+  const BASE: string = typeof (window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__ === 'string'
+    ? String((window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__)
+    : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
   return (
     <div className="container" style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
       <div className="header" style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -29,13 +35,13 @@ export default function Index() {
           flexWrap: 'wrap',
         }}
       >
-        <a href="/src/dynamic-3d.html" className="btn" style={btnStyle}>
+        <a href={`${BASE}dynamic-3d.html`} className="btn" style={btnStyle}>
           Dynamic
         </a>
-        <a href="/src/static-model.html" className="btn" style={btnStyle}>
+        <a href={`${BASE}static-model.html`} className="btn" style={btnStyle}>
           Models
         </a>
-        <a href="/src/multi-scene.html" className="btn" style={btnStyle}>
+        <a href={`${BASE}multi-scene.html`} className="btn" style={btnStyle}>
           🌌 Multi-Scene
         </a>
       </div>

@@ -1,0 +1,22 @@
+{
+  "name": "WebSpatial Solar System",
+  "short_name": "SolarSystem",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "xr_main_scene": {
+    "default_size": {
+      "width": 500,
+      "height": 1000
+    }
+  },
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

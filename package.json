@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "pnpm -C sample-solarsystem dev",
-    "install:app": "pnpm -C sample-solarsystem install"
+    "dev:web": "XR_ENV=web pnpm -C sample-solarsystem dev",
+    "dev:avp": "XR_ENV=avp pnpm -C sample-solarsystem dev",
+    "install:app": "pnpm -C sample-solarsystem install",
+    "build": "pnpm -C sample-solarsystem build",
+    "preview": "pnpm -C sample-solarsystem preview"
   },
   "dependencies": {
     "@google/model-viewer": "^4.1.0",
