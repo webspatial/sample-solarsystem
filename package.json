@@ -1,0 +1,21 @@
+{
+  "name": "sample-solarsystem-root",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "pnpm -C sample-solarsystem dev",
+    "install:app": "pnpm -C sample-solarsystem install"
+  },
+  "dependencies": {
+    "@google/model-viewer": "^4.1.0",
+    "@webspatial/core-sdk": "^1.1.0",
+    "@webspatial/react-sdk": "^1.1.0",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@webspatial/builder": "^1.1.0",
+    "@webspatial/platform-visionos": "^1.1.0",
+    "@webspatial/vite-plugin": "^0.2.1",
+    "vite-plugin-html": "^3.2.2"
+  }
+}
