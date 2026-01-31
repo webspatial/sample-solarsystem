@@ -12,11 +12,9 @@ function StaticModelDemo() {
   const BASE: string = typeof (window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__ === 'string'
     ? String((window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__)
     : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
-  const [modelScale, setModelScale] = useState(1)
-  const [modelRotation, setModelRotation] = useState({ x: 0, y: 0, z: 0 })
   const [showInfo, setShowInfo] = useState(false)
-  const [time, setTime] = useState(0)
   const modelRef = React.useRef<SpatializedStatic3DElementRef | null>(null)
+  const dragBaseRef = React.useRef<{ x: number, y: number, z: number }>({ x: 0, y: 0, z: 0 })
   const planets = [
     { name: 'Sun', src: `${BASE}modelasset/sun.usdz` },
     { name: 'Mercury', src: `${BASE}modelasset/mercury.usdz` },
@@ -30,29 +28,7 @@ function StaticModelDemo() {
     { name: 'Pluto', src: `${BASE}modelasset/pluto.usdz` },
   ]
   const [planetIndex, setPlanetIndex] = useState(3)
-  const orbitRadius = 10
-  React.useEffect(() => {
-    let raf = 0
-    const tick = () => {
-      setTime(t => t + 0.01)
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  React.useEffect(() => {
-    const t = modelRef.current?.entityTransform
-    if (!t) return
-    const x = Math.cos(time) * orbitRadius
-    const y = Math.sin(time) * orbitRadius
-    // const s = modelScale * 1.85
-    t.setMatrixValue('none')
-    t.translateSelf(x, y, 0)
-    t.rotateAxisAngle(1, 0, 0, modelRotation.x)
-    t.rotateAxisAngle(0, 0, 1, modelRotation.z)
-    // t.scaleSelf(s, s, s)
-  }, [time, modelScale, modelRotation])
+  
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
@@ -110,22 +86,29 @@ function StaticModelDemo() {
             borderRadius: '16px',
             background: 'rgba(0,0,0,0.3)'
           }}
-          onSpatialDragStart={() => {}}
+          onSpatialTap={() => {
+            setShowInfo(s => !s)
+          }}
+          onSpatialDragStart={() => {
+            dragBaseRef.current = { x: 0, y: 0, z: 0 }
+          }}
           onSpatialDrag={(e) => {
-            const delta = e.detail.translation3D
-            setModelRotation(prev => ({
-              x: prev.x + delta.y * 2,
-              y: prev.y + delta.x * 2,
-              z: prev.z
-            }))
+            const t = e.detail.translation3D
+            const dx = t.x - dragBaseRef.current.x
+            const dy = t.y - dragBaseRef.current.y
+            const dz = t.z - dragBaseRef.current.z
+            const mat = modelRef.current?.entityTransform
+            if (mat) {
+              mat.translateSelf(dx, dy, dz)
+            }
+            dragBaseRef.current = t
           }}
-          onSpatialMagnify={(e) => {
-            setModelScale(prev => Math.max(0.2, Math.min(3, prev * e.detail.magnification)))
-          }}
+          onSpatialDragEnd={() => {}}
         />
 
         {showInfo && (
           <div
+            enable-xr
             style={{
               position: 'absolute',
               left: '50%',
