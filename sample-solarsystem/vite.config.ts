@@ -17,6 +17,7 @@ export default defineConfig(() => {
       webSpatial(),
       {
         name: 'avp-index-middleware',
+        enforce: 'pre',
         apply: 'serve',
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
