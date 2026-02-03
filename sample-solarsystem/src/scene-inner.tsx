@@ -11,6 +11,7 @@ import {
 enableDebugTool()
 
 function InnerPlanetsScene() {
+  console.log('[InnerPlanetsScene] window.name=', window.name)
   const inner = [
     { name: 'Mercury', distance: 0.25, size: 0.04, color: 'matMercury' },
     { name: 'Venus', distance: 0.35, size: 0.05, color: 'matVenus' },
@@ -19,11 +20,11 @@ function InnerPlanetsScene() {
   ]
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <Reality
         style={{
-          width: '100%',
-          height: '100%',
+          width: '100vw',
+          height: '100vh',
           '--xr-back': 120,
           '--xr-depth': 150,
         }}

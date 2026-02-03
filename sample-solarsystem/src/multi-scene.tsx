@@ -1,33 +1,92 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { initScene } from '@webspatial/react-sdk'
  
 
 const MultiSceneDemo = () => {
   const XR_ENV: string | undefined =
     (window as unknown as { XR_ENV?: string }).XR_ENV ??
     (import.meta as unknown as { env?: { XR_ENV?: string } }).env?.XR_ENV
-
-  const BASE: string = typeof (window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__ === 'string'
-    ? String((window as unknown as { __XR_ENV_BASE__?: string }).__XR_ENV_BASE__)
-    : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
+  const baseRaw = (window as unknown as { __XR_ENV_BASE__?: unknown }).__XR_ENV_BASE__
+  let BASE: string =
+    typeof baseRaw === 'string' && baseRaw.trim() !== '' && baseRaw.trim() !== '""'
+      ? baseRaw
+      : (XR_ENV === 'avp' ? '/webspatial/avp/' : '/')
+  if (!BASE.endsWith('/')) BASE += '/'
 
   const openPage = (path: string, title: string) => {
-    const url = `${window.location.origin}${BASE}${path}`;
-    window.open(url, title);
-  };
+    const url = new URL(path, `${window.location.origin}${BASE}`).toString()
+    window.open(url, title)
+  }
 
   const openScene = (name: string, title: string) => {
     switch (name) {
       case 'overview':
+        initScene(
+          title,
+          () => ({
+            defaultSize: {
+              width: 1.2,
+              height: 0.8,
+              depth: 0.15,
+            },
+            worldScaling: 'automatic',
+            worldAlignment: 'automatic',
+            baseplateVisibility: 'hidden',
+          }),
+          { type: 'volume' },
+        )
         openPage('scene-overview.html', title);
         break;
       case 'inner':
+        initScene(
+          title,
+          () => ({
+            defaultSize: {
+              width: 1,
+              height: 0.7,
+              depth: 0.12,
+            },
+            worldScaling: 'automatic',
+            worldAlignment: 'automatic',
+            baseplateVisibility: 'hidden',
+          }),
+          { type: 'volume' },
+        )
         openPage('scene-inner.html', title);
         break;
       case 'outer':
+        initScene(
+          title,
+          () => ({
+            defaultSize: {
+              width: 1.4,
+              height: 0.9,
+              depth: 0.15,
+            },
+            worldScaling: 'automatic',
+            worldAlignment: 'automatic',
+            baseplateVisibility: 'hidden',
+          }),
+          { type: 'volume' },
+        )
         openPage('scene-outer.html', title);
         break;
       case 'sun':
+        initScene(
+          title,
+          () => ({
+            defaultSize: {
+              width: 0.8,
+              height: 0.6,
+              depth: 0.1,
+            },
+            worldScaling: 'automatic',
+            worldAlignment: 'automatic',
+            baseplateVisibility: 'hidden',
+          }),
+          { type: 'volume' },
+        )
         openPage('scene-sun.html', title);
         break;
       default:

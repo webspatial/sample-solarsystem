@@ -11,6 +11,7 @@ import {
 enableDebugTool()
 
 function OuterPlanetsScene() {
+  console.log('[OuterPlanetsScene] window.name=', window.name)
   const outer = [
     { name: 'Jupiter', distance: 0.75, size: 0.1, color: 'matJupiter' },
     { name: 'Saturn', distance: 0.9, size: 0.09, color: 'matSaturn' },
@@ -19,11 +20,11 @@ function OuterPlanetsScene() {
   ]
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <Reality
         style={{
-          width: '100%',
-          height: '100%',
+          width: '100vw',
+          height: '100vh',
           '--xr-back': 120,
           '--xr-depth': 150,
         }}

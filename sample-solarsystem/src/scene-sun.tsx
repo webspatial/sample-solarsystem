@@ -11,6 +11,7 @@ import {
 enableDebugTool()
 
 function SunFocusScene() {
+  console.log('[SunFocusScene] window.name=', window.name)
   const ring = Array.from({ length: 8 }).map((_, i) => {
     const angle = (i / 8) * Math.PI * 2
     return {
@@ -20,11 +21,11 @@ function SunFocusScene() {
   })
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <Reality
         style={{
-          width: '100%',
-          height: '100%',
+          width: '100vw',
+          height: '100vh',
           '--xr-back': 120,
           '--xr-depth': 150,
         }}
