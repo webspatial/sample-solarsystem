@@ -29,8 +29,6 @@ function OverviewScene() {
         style={{
           width: '100vw',
           height: '100vh',
-          '--xr-back': 120,
-          '--xr-depth': 150,
         }}
       >
         <UnlitMaterial id="matSun" color="#FDB813" />
@@ -47,14 +45,14 @@ function OverviewScene() {
           <SphereEntity
             radius={0.18}
             materials={['matSun']}
-            position={{ x: 0, y: 0, z: -1 }}
+            position={{ x: 0, y: 0, z: -0.075 }}
           />
           {planets.map(p => (
             <SphereEntity
               key={p.name}
               radius={p.size}
               materials={[p.color]}
-              // position={{ x: p.distance - 0.7, y: 0, z: -1 }}
+              position={{ x: p.distance - 0.7, y: 0, z: -0.075 }}
             />
           ))}
         </SceneGraph>

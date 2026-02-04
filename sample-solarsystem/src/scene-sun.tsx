@@ -26,8 +26,6 @@ function SunFocusScene() {
         style={{
           width: '100vw',
           height: '100vh',
-          '--xr-back': 120,
-          '--xr-depth': 150,
         }}
       >
         <UnlitMaterial id="matSun" color="#FDB813" />
@@ -37,14 +35,14 @@ function SunFocusScene() {
           <SphereEntity
             radius={0.18}
             materials={['matSun']}
-            // position={{ x: 0, y: 0, z: -1 }}
+            position={{ x: 0, y: 0, z: -0.05 }}
           />
-          {ring.map((_, i) => (
+          {ring.map((p, i) => (
             <SphereEntity
               key={i}
               radius={0.03}
               materials={['matFlare']}
-              // position={{ x: p.x, y: 0, z: p.z }}
+              position={{ x: p.x, y: 0, z: -0.05 }}
             />
           ))}
         </SceneGraph>
