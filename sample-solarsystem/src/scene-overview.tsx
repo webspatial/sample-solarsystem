@@ -54,7 +54,7 @@ function OverviewScene() {
               key={p.name}
               radius={p.size}
               materials={[p.color]}
-              position={{ x: p.distance - 0.7, y: 0, z: -1 }}
+              // position={{ x: p.distance - 0.7, y: 0, z: -1 }}
             />
           ))}
         </SceneGraph>

@@ -39,14 +39,14 @@ function OuterPlanetsScene() {
           <SphereEntity
             radius={0.18}
             materials={['matSun']}
-            position={{ x: 0, y: 0, z: -1 }}
+            // position={{ x: 0, y: 0, z: -1 }}
           />
           {outer.map(p => (
             <SphereEntity
               key={p.name}
               radius={p.size}
               materials={[p.color]}
-              position={{ x: p.distance - 0.8, y: 0, z: -1 }}
+              // position={{ x: p.distance - 0.8, y: 0, z: -1 }}
             />
           ))}
         </SceneGraph>

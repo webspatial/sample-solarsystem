@@ -37,14 +37,14 @@ function SunFocusScene() {
           <SphereEntity
             radius={0.18}
             materials={['matSun']}
-            position={{ x: 0, y: 0, z: -1 }}
+            // position={{ x: 0, y: 0, z: -1 }}
           />
-          {ring.map((p, i) => (
+          {ring.map((_, i) => (
             <SphereEntity
               key={i}
               radius={0.03}
               materials={['matFlare']}
-              position={{ x: p.x, y: 0, z: p.z }}
+              // position={{ x: p.x, y: 0, z: p.z }}
             />
           ))}
         </SceneGraph>
