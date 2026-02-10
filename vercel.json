@@ -1,12 +1,38 @@
 {
-  "version": 2,
-  "buildCommand": "pnpm -C sample-solarsystem run build:vercel-avp",
-  "installCommand": "pnpm install && pnpm -C sample-solarsystem install",
-  "outputDirectory": "sample-solarsystem/dist/webspatial/avp",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+    "version": 2,
+    "buildCommand": "pnpm run build:vercel-avp",
+    "installCommand": "pnpm install",
+    "outputDirectory": "dist/webspatial/avp",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+        {
+            "source": "/assets/(.*)",
+            "destination": "/assets/$1"
+        },
+        {
+            "source": "/sw.js",
+            "destination": "/sw.js"
+        },
+        {
+            "source": "/manifest.json",
+            "destination": "/manifest.json"
+        },
+        {
+            "source": "/(.*\\.svg)",
+            "destination": "/$1"
+        },
+        {
+            "source": "/(.*\\.png)",
+            "destination": "/$1"
+        },
+        {
+            "source": "/(.*\\.ico)",
+            "destination": "/$1"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
 }

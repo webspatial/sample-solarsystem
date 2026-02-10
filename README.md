@@ -14,14 +14,15 @@ pnpm run dev
 
 ## Deployment (Vercel)
 
-Deploy directly from this subdirectory:
+## Deployment (Vercel)
+
+Deploy directly from the project root:
 
 ```bash
 # 1. Install Vercel CLI
 npm i -g vercel
 
 # 2. Deploy to production
-# Ensure you are in sample-solarsystem/sample-solarsystem/
 vercel --prod
 ```
 *Vercel configuration is handled automatically via `vercel.json`.*
