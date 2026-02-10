@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:vercel-avp": "node generate-icons.mjs && XR_ENV=avp vite build",
+    "generate-icons": "node generate-icons.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -13,6 +15,7 @@
     "@google/model-viewer": "^4.1.0",
     "@webspatial/core-sdk": "^1.1.0",
     "@webspatial/react-sdk": "^1.1.0",
+    "styled-components": "^6.1.11",
     "three": "^0.182.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

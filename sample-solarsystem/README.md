@@ -1,78 +1,43 @@
-# WebSpatial Solar System — React + Vite
+# WebSpatial Solar System
 
-This project is a multi‑page React + TypeScript + Vite demo wired to the WebSpatial SDK. It runs on the web and packages for Apple Vision Pro (AVP) via the WebSpatial builder.
+A Progressive Web App (PWA) demo using React, Vite, and the WebSpatial SDK. It features 3D solar system scenes deployable to Vercel and viewable in spatial environments (Apple Vision Pro).
 
-## Prerequisites
-- Node.js 18+
-- pnpm
-- macOS with Xcode and visionOS Simulator (for AVP packaging)
+## Quick Start
 
-## Install
 ```bash
+# Install dependencies
 pnpm install
+
+# Run locally
 pnpm run dev
 ```
-Open http://localhost:5173/ to see the demo menu. Individual pages:
-- /dynamic-3d.html
-- /static-model.html
-- /multi-scene.html
-- /scene-overview.html, /scene-inner.html, /scene-outer.html, /scene-sun.html
 
-## WebSpatial SDK Integration
-- React SDK and core SDK installed in app package.json
-- Vite plugin configured to inject XR_ENV and handle AVP base paths
-  - See [vite.config.ts](./vite.config.ts)
-- TypeScript JSX compiled through WebSpatial React SDK
-  - See [tsconfig.app.json](./tsconfig.app.json) and [tsconfig.node.json](./tsconfig.node.json)
+## Deployment (Vercel)
 
-## Run for AVP (visionOS)
-Run a standard dev server in one terminal:
+Deploy directly from this subdirectory:
+
 ```bash
-pnpm run dev:web
-```
-Run an AVP dev server in another terminal:
-```bash
-pnpm run dev:avp
-```
-Note the AVP URL printed in the terminal, e.g.:
-```
-Local: http://localhost:5173/webspatial/avp/
-```
+# 1. Install Vercel CLI
+npm i -g vercel
 
-## Package and Run in visionOS Simulator
-With the AVP dev server running, package the app and launch the simulator:
-```bash
-pnpm dlx webspatial-builder run --base=http://localhost:5173/webspatial/avp/
+# 2. Deploy to production
+# Ensure you are in sample-solarsystem/sample-solarsystem/
+vercel --prod
 ```
-Replace the base URL with the AVP dev server URL shown in your terminal.
+*Vercel configuration is handled automatically via `vercel.json`.*
 
-## Web App Manifest (AVP)
-Minimal manifest is provided at public/manifest.webmanifest and linked to all pages. It includes scene defaults required by the builder:
-```json
-{
-  "name": "WebSpatial Solar System",
-  "short_name": "SolarSystem",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "xr_main_scene": {
-    "default_size": { "width": 500, "height": 1000 }
-  },
-  "icons": [
-    { "src": "/vite.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
-  ]
-}
-```
-Adjust default_size to fit your preferred start scene dimensions in AVP.
+## Arch Overview
 
-## Build and Deploy (Web)
-```bash
-pnpm run build
-```
-This produces a multi‑page build under sample-solarsystem/dist suitable for Vercel. A root vercel.json is included to build the app subfolder.
-
-## Notes
-- Static model assets live under public/modelasset/ and are served at /modelasset/*. Ensure those files exist for the model demo to render correctly.
-- In AVP, the app uses the injected base path (/webspatial/avp/) automatically. Multi‑scene links are AVP‑safe and will open pages under that base when XR_ENV=avp.
-- Vite configuration can be conditionally controlled by mode/command. See Vite docs: https://vite.dev/config/
+- **Frontend**: React 18 + Vite (SPA/MPA hybrid).
+- **Spatial**: 
+  - `@webspatial/react-sdk`: React components for spatial UI.
+  - `@webspatial/core-sdk`: Core logic for 3D interactions.
+  - `@google/model-viewer` & `three.js`: 3D rendering.
+- **Styling**: 
+  - Vanilla CSS variables.
+  - **Custom Vite Plugin**: Automatically injects `class="is-spatial"` into HTML for spatial styling in all environments (including Vercel).
+- **Routing**: Multi-page Application (MPA) with client-side SPA fallback for assets.
+- **PWA**: 
+  - `manifest.json`: Web App Manifest for installability.
+  - `sw.js`: Service Worker for asset caching.
+  - **Deployment**: Vercel (static hosting with rewrite rules for spa/assets).

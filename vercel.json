@@ -1,6 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "pnpm -C sample-solarsystem build",
-  "installCommand": "pnpm install",
-  "outputDirectory": "sample-solarsystem/dist"
+  "buildCommand": "pnpm -C sample-solarsystem run build:vercel-avp",
+  "installCommand": "pnpm install && pnpm -C sample-solarsystem install",
+  "outputDirectory": "sample-solarsystem/dist/webspatial/avp",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

@@ -9,12 +9,23 @@ import path from 'node:path'
 export default defineConfig(() => {
   const XR_ENV = process.env.XR_ENV
   const isAvp = XR_ENV === 'avp'
+  console.log('Building with XR_ENV:', XR_ENV)
   return {
-    base: isAvp ? '/webspatial/avp/' : undefined,
+    base: '/',
     appType: 'mpa',
     plugins: [
+      {
+        name: 'inject-spatial-class',
+        transformIndexHtml(html) {
+          if (isAvp) {
+            return html.replace('<html lang="en">', '<html lang="en" class="is-spatial">')
+          }
+        },
+      },
       react(),
-      webSpatial(),
+      webSpatial({
+        outputDir: ''
+      }),
       {
         name: 'avp-index-middleware',
         enforce: 'pre',
@@ -35,15 +46,9 @@ export default defineConfig(() => {
           })
         },
       },
-      createHtmlPlugin({
-        inject: {
-          data: {
-            XR_ENV: process.env.XR_ENV,
-          },
-        },
-      }),
     ],
     server: {
+      host: true,
       strictPort: true,
       port: isAvp ? 5175 : 5173,
     },
@@ -59,6 +64,7 @@ export default defineConfig(() => {
           'scene-inner': 'scene-inner.html',
           'scene-outer': 'scene-outer.html',
           'scene-sun': 'scene-sun.html',
+          'html-visibility': 'html-visibility.html',
         },
       },
     },
