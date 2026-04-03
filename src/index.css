@@ -67,11 +67,11 @@ button:focus-visible {
   }
 }
 
-html.is-spatial {
+html.isSpatial {
   background-color: transparent;
   --xr-background-material: transparent;
 }
-:root.is-spatial {
+:root.isSpatial {
   background-color: transparent !important;
   --xr-background-material: transparent;
 }

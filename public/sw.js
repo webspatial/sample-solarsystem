@@ -2,7 +2,7 @@ const CACHE_NAME = 'webspatial-solarsystem-v1';
 const URLS_TO_CACHE = [
     '/',
     '/index.html',
-    '/manifest.json',
+    '/manifest.webmanifest',
     '/icon-192.svg',
     '/icon-512.svg'
 ];

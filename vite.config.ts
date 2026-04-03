@@ -1,72 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import webSpatial from "@webspatial/vite-plugin";
-import { createHtmlPlugin } from "vite-plugin-html";
-import fs from 'node:fs'
-import path from 'node:path'
+import webspatial from '@webspatial/vite-plugin'
 
-// https://vite.dev/config/
 export default defineConfig(() => {
-  const XR_ENV = process.env.XR_ENV
-  const isAvp = XR_ENV === 'avp'
-  console.log('Building with XR_ENV:', XR_ENV)
+  const isAvp = process.env.XR_ENV === 'avp'
   return {
-    base: '/',
-    appType: 'mpa',
     plugins: [
-      {
-        name: 'inject-spatial-class',
-        transformIndexHtml(html) {
-          if (isAvp) {
-            return html.replace('<html lang="en">', '<html lang="en" class="is-spatial">')
-          }
-        },
-      },
       react(),
-      webSpatial({
-        outputDir: ''
-      }),
-      {
-        name: 'avp-index-middleware',
-        enforce: 'pre',
-        apply: 'serve',
-        configureServer(server) {
-          server.middlewares.use(async (req, res, next) => {
-            const url = req.url || ''
-            if (isAvp && (url === '/webspatial/avp' || url === '/webspatial/avp/')) {
-              const indexPath = path.resolve(process.cwd(), 'index.html')
-              const html = fs.readFileSync(indexPath, 'utf8')
-              const transformed = await server.transformIndexHtml(url, html)
-              res.statusCode = 200
-              res.setHeader('Content-Type', 'text/html')
-              res.end(transformed)
-              return
-            }
-            next()
-          })
-        },
-      },
+      webspatial(isAvp ? { mode: 'avp', outputDir: '/' } : {}),
     ],
     server: {
       host: true,
       strictPort: true,
-      port: isAvp ? 5175 : 5173,
+      // Same port as `pnpm preview` / webspatial-builder README so --base matches
+      port: 5173,
     },
     build: {
       outDir: isAvp ? 'dist/webspatial/avp' : 'dist',
-      rollupOptions: {
-        input: {
-          main: 'index.html',
-          'dynamic-3d': 'dynamic-3d.html',
-          'static-model': 'static-model.html',
-          'multi-scene': 'multi-scene.html',
-          'scene-overview': 'scene-overview.html',
-          'scene-inner': 'scene-inner.html',
-          'scene-outer': 'scene-outer.html',
-          'scene-sun': 'scene-sun.html',
-          'html-visibility': 'html-visibility.html',
-        },
-      },
     },
   }
 })

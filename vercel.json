@@ -15,8 +15,8 @@
             "destination": "/sw.js"
         },
         {
-            "source": "/manifest.json",
-            "destination": "/manifest.json"
+            "source": "/manifest.webmanifest",
+            "destination": "/manifest.webmanifest"
         },
         {
             "source": "/(.*\\.svg)",

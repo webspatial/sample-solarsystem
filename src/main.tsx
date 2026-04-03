@@ -1,30 +1,31 @@
-import '@webspatial/react-sdk'
-import '@webspatial/core-sdk'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Spatial } from '@webspatial/core-sdk'
+import { enableDebugTool } from '@webspatial/react-sdk'
 import './index.css'
-import Index from './index.tsx'
+import App from './App'
 
-if (typeof navigator !== 'undefined' && navigator.userAgent.indexOf('WebSpatial/') > -1) {
-  document.documentElement.classList.add('is-spatial')
+if (Spatial.prototype.runInSpatialWeb()) {
+  document.documentElement.classList.add('isSpatial')
 }
+
+enableDebugTool()
 
 const root = createRoot(document.getElementById('root')!)
 
 root.render(
   <StrictMode>
-    <Index />
+    <App />
   </StrictMode>,
 )
 
-// Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(
-      (registration) => {
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).then(
+      registration => {
         console.log('ServiceWorker registration successful with scope: ', registration.scope)
       },
-      (err) => {
+      err => {
         console.log('ServiceWorker registration failed: ', err)
       },
     )
