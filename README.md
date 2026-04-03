@@ -11,7 +11,7 @@ pnpm run dev
 
 `pnpm run dev` starts Vite with **`XR_ENV=avp`**, so the WebSpatial plugin uses visionOS-style settings (`@webspatial/react-sdk/default`, injected `import.meta.env.XR_ENV`, etc.). The dev server listens on **http://localhost:5173** (same port as `pnpm preview` and the `webspatial-builder --base` URL in `package.json`).
 
-Open the app and use the home screen links for **Dynamic orbit**, **USDZ models**, and **Multi-scene**.
+Open the app and use the links for **Orbit**, **Models**, and **Multi-scene**.
 
 ## Vision Pro (webspatial-builder)
 
@@ -65,10 +65,10 @@ The CLI uses `vercel.json` the same way as the dashboard.
 ## Architecture
 
 - **SPA** with [React Router](https://reactrouter.com/) (`/` home, `/orbit`, `/models`, `/multi`, `/scene/:id`).
-- **WebSpatial:** `@webspatial/react-sdk` and `@webspatial/core-sdk` **^1.5.0**; `Spatial.prototype.runInSpatialWeb()` adds the `isSpatial` class on `<html>` for translucent shell styling (see `src/main.tsx`, `src/index.css`).
-- **Build:** `@webspatial/vite-plugin` **^1.0.1** with `mode: 'avp'` when `XR_ENV=avp`, matching [webspatial.dev](https://webspatial.dev/docs) patterns.
-- **PWA:** `public/manifest.webmanifest` and `public/sw.js`.
+- **WebSpatial:** `@webspatial/react-sdk` and `@webspatial/core-sdk` **^1.5.0**. When the page runs inside a WebSpatial host (UA contains `WebSpatial/`), `Spatial.prototype.runInSpatialWeb()` is true and we add **`isSpatial`** on `<html>` so `src/index.css` can apply shell styling / `--xr-background-material` (same idea as [WebSpatial docs: running in WebSpatial mode](https://webspatial.dev/docs/development-guide/enabling-webspatial-in-web-projects/step-3-integrate-webspatial-sdk-into-web-build-tools/check-if-running-in-webspatial-mode), which use the class name `is-spatial`).
+- **Build:** One pipeline: Vite always uses `@webspatial/vite-plugin` with `mode: 'avp'` (see [vite.config.ts](vite.config.ts)). `pnpm run build` runs `XR_ENV=avp vite build` so the plugin injects the same defines as production; output is always `dist/webspatial/avp`.
+- **PWA:** `public/manifest.webmanifest` only (no service worker — one SPA bundle is enough for WebSpatial/Vercel, and a generic SW cache list is easy to get wrong under `import.meta.env.BASE_URL`).
 
 ## Styling
 
-Global styles live in `src/index.css`. Spatial shell defaults use `html.isSpatial` (`--xr-background-material`, transparent background).
+Shared layout lives in `src/index.css` (small utility classes: `.page`, `.nav`, `.chip`, `.reality-view`, etc.). In WebSpatial, `html.isSpatial` sets `--xr-background-material: translucent` (see WebSpatial quick example).

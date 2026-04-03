@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "XR_ENV=avp vite",
-    "build": "tsc -b && vite build",
-    "build:vercel-avp": "node generate-icons.mjs && tsc -b && XR_ENV=avp vite build",
+    "build": "tsc -b && XR_ENV=avp vite build",
+    "build:vercel-avp": "node generate-icons.mjs && pnpm run build",
     "generate-icons": "node generate-icons.mjs",
     "lint": "eslint .",
-    "preview": "vite preview --host --port 5173",
+    "preview": "vite preview --host --port 5173 --outDir dist/webspatial/avp",
     "avp": "pnpm run build && webspatial-builder run --base=http://localhost:5173"
   },
   "dependencies": {

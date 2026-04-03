@@ -37,8 +37,8 @@ function OverviewScene() {
   const sunZ = -0.075
   const offset = -0.7
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Reality style={{ width: '100vw', height: '100vh' }}>
+    <div className="reality-full">
+      <Reality style={{ width: '100%', height: '100%' }}>
         <UnlitMaterial id="matSun" color="#FDB813" />
         <UnlitMaterial id="matMercury" color="#8C7853" />
         <UnlitMaterial id="matVenus" color="#FFC649" />
@@ -68,8 +68,8 @@ function InnerScene() {
   const sunZ = -0.06
   const offset = -0.4
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Reality style={{ width: '100vw', height: '100vh' }}>
+    <div className="reality-full">
+      <Reality style={{ width: '100%', height: '100%' }}>
         <UnlitMaterial id="matSun" color="#FDB813" />
         <UnlitMaterial id="matMercury" color="#8C7853" />
         <UnlitMaterial id="matVenus" color="#FFC649" />
@@ -95,8 +95,8 @@ function OuterScene() {
   const sunZ = -0.075
   const offset = -0.8
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Reality style={{ width: '100vw', height: '100vh' }}>
+    <div className="reality-full">
+      <Reality style={{ width: '100%', height: '100%' }}>
         <UnlitMaterial id="matSun" color="#FDB813" />
         <UnlitMaterial id="matJupiter" color="#D8CA9D" />
         <UnlitMaterial id="matSaturn" color="#FAD5A5" />
@@ -127,8 +127,8 @@ function SunScene() {
     }
   })
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Reality style={{ width: '100vw', height: '100vh' }}>
+    <div className="reality-full">
+      <Reality style={{ width: '100%', height: '100%' }}>
         <UnlitMaterial id="matSun" color="#FDB813" />
         <UnlitMaterial id="matFlare" color="#FF6B35" />
         <SceneGraph>

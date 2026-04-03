@@ -5,6 +5,7 @@ import { enableDebugTool } from '@webspatial/react-sdk'
 import './index.css'
 import App from './App'
 
+// Spatial-only CSS: https://webspatial.dev/docs/.../check-if-running-in-webspatial-mode (docs use class `is-spatial`; CSS here uses `isSpatial`).
 if (Spatial.prototype.runInSpatialWeb()) {
   document.documentElement.classList.add('isSpatial')
 }
@@ -18,16 +19,3 @@ root.render(
     <App />
   </StrictMode>,
 )
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).then(
-      registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope)
-      },
-      err => {
-        console.log('ServiceWorker registration failed: ', err)
-      },
-    )
-  })
-}

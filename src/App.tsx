@@ -5,8 +5,8 @@ import ModelsPage from './pages/ModelsPage'
 import OrbitPage from './pages/OrbitPage'
 import SceneRoute from './pages/SceneRoute'
 
-const basename =
-  import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '')
+const b = import.meta.env.BASE_URL
+const basename = b === '/' ? undefined : b.replace(/\/$/, '')
 
 export default function App() {
   return (

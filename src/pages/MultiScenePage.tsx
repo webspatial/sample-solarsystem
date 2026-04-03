@@ -1,10 +1,13 @@
 import { Link } from 'react-router'
 import { initScene } from '@webspatial/react-sdk'
-import { appOriginUrl } from '../appHref'
+
+function openSceneUrl(path: string): string {
+  return new URL(path, `${window.location.origin}${import.meta.env.BASE_URL}`).toString()
+}
 
 export default function MultiScenePage() {
   const openPage = (path: string, title: string) => {
-    window.open(appOriginUrl(path), title)
+    window.open(openSceneUrl(path), title)
   }
 
   const openScene = (name: 'overview' | 'inner' | 'outer' | 'sun', title: string) => {
@@ -27,107 +30,31 @@ export default function MultiScenePage() {
     openPage(`scene/${name}`, title)
   }
 
-  const openAllScenes = () => {
-    openScene('overview', 'SolarOverview')
-    openScene('inner', 'InnerPlanets')
-    openScene('outer', 'OuterPlanets')
-    openScene('sun', 'SunFocus')
-  }
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '1.5rem',
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          color: '#fff',
-          textDecoration: 'none',
-          padding: '0.6rem 1.2rem',
-          backgroundColor: 'rgba(255,255,255,0.12)',
-          borderRadius: '8px',
-        }}
-      >
+    <div className="page stack">
+      <Link to="/" className="back">
         ← Back
       </Link>
-
-      <button
-        type="button"
-        style={{
-          padding: '0.6rem 1.2rem',
-          backgroundColor: '#42a5f5',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          fontWeight: 600,
-        }}
-        onClick={openAllScenes}
-      >
+      <button type="button" className="chip" onClick={() => {
+        openScene('overview', 'SolarOverview')
+        openScene('inner', 'InnerPlanets')
+        openScene('outer', 'OuterPlanets')
+        openScene('sun', 'SunFocus')
+      }}>
         Open all scenes
       </button>
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button
-          type="button"
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: 'rgba(255,255,255,0.12)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: '999px',
-            cursor: 'pointer',
-          }}
-          onClick={() => openScene('overview', 'SolarOverview')}
-        >
+      <div className="row">
+        <button type="button" className="chip" onClick={() => openScene('overview', 'SolarOverview')}>
           Overview
         </button>
-        <button
-          type="button"
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: 'rgba(255,255,255,0.12)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: '999px',
-            cursor: 'pointer',
-          }}
-          onClick={() => openScene('inner', 'InnerPlanets')}
-        >
-          Inner planets
+        <button type="button" className="chip" onClick={() => openScene('inner', 'InnerPlanets')}>
+          Inner
         </button>
-        <button
-          type="button"
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: 'rgba(255,255,255,0.12)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: '999px',
-            cursor: 'pointer',
-          }}
-          onClick={() => openScene('outer', 'OuterPlanets')}
-        >
-          Outer planets
+        <button type="button" className="chip" onClick={() => openScene('outer', 'OuterPlanets')}>
+          Outer
         </button>
-        <button
-          type="button"
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: 'rgba(255,255,255,0.12)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: '999px',
-            cursor: 'pointer',
-          }}
-          onClick={() => openScene('sun', 'SunFocus')}
-        >
-          Sun focus
+        <button type="button" className="chip" onClick={() => openScene('sun', 'SunFocus')}>
+          Sun
         </button>
       </div>
     </div>
