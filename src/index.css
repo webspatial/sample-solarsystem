@@ -96,13 +96,13 @@ html.isSpatial {
   gap: 0.75rem;
 }
 
+/* Spatial HTML: X/Y via top/left/right — see https://webspatial.dev/docs/development-guide/using-the-webspatial-api/elevate-2d-elements */
 .info-panel {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(300px, 90vw);
+  top: 0.5rem;
+  right: 10;
+  width: min(260px, 85vw);
   padding: 1rem;
-  transform: translate3d(2rem, -8rem, 0);
   border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
   border-radius: 8px;
   --xr-back: 120;
