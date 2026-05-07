@@ -113,3 +113,34 @@ html.isSpatial {
   position: relative;
   min-height: 360px;
 }
+
+.planet-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-family: system-ui, sans-serif;
+  border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, Canvas 60%, transparent);
+  color: CanvasText;
+  white-space: nowrap;
+}
+
+.planet-chip strong {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.planet-chip--big {
+  padding: 10px 14px;
+  border-radius: 12px;
+  white-space: normal;
+  max-width: 220px;
+  text-align: left;
+}
+
+.planet-chip--big p {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
