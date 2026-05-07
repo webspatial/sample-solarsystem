@@ -178,15 +178,12 @@ export default function OrbitPage() {
           </AttachmentAsset>
 
           <SceneGraph>
-            <Entity
+            <ModelEntity
+              model="mSun"
               position={{ x: 0, y: 0, z: 0 }}
               rotation={{ x: 0, y: t * 0.05, z: 0 }}
-            >
-              <ModelEntity
-                model="mSun"
-                scale={{ x: SUN_SCALE, y: SUN_SCALE, z: SUN_SCALE }}
-              />
-            </Entity>
+              scale={{ x: SUN_SCALE, y: SUN_SCALE, z: SUN_SCALE }}
+            />
 
             {BODIES.map(b => {
               const a = t * b.speed
@@ -196,13 +193,10 @@ export default function OrbitPage() {
                 z: Math.sin(a) * b.distance,
               }
               return (
-                <Entity
-                  key={b.name}
-                  position={pos}
-                  rotation={{ x: 0, y: t * b.spin, z: b.tilt }}
-                >
+                <Entity key={b.name} position={pos}>
                   <ModelEntity
                     model={`m${b.name}`}
+                    rotation={{ x: 0, y: t * b.spin, z: b.tilt }}
                     scale={{ x: b.scale, y: b.scale, z: b.scale }}
                     onSpatialTap={() => onTap(b.name)}
                   />
