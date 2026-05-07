@@ -23,11 +23,13 @@ type Body = {
   facts: string[]
 }
 
+const SUN_SCALE = 0.04
+
 const BODIES: Body[] = [
   {
     name: 'Mercury',
-    distance: 0.22,
-    scale: 0.025,
+    distance: 0.18,
+    scale: 0.008,
     speed: 4.15,
     spin: 0.04,
     tilt: 0.01,
@@ -36,8 +38,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Venus',
-    distance: 0.3,
-    scale: 0.038,
+    distance: 0.26,
+    scale: 0.012,
     speed: 1.62,
     spin: -0.01,
     tilt: 3.1,
@@ -46,8 +48,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Earth',
-    distance: 0.4,
-    scale: 0.04,
+    distance: 0.34,
+    scale: 0.013,
     speed: 1.0,
     spin: 0.3,
     tilt: 0.41,
@@ -56,8 +58,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Mars',
-    distance: 0.5,
-    scale: 0.032,
+    distance: 0.42,
+    scale: 0.011,
     speed: 0.53,
     spin: 0.3,
     tilt: 0.44,
@@ -66,8 +68,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Jupiter',
-    distance: 0.7,
-    scale: 0.09,
+    distance: 0.55,
+    scale: 0.028,
     speed: 0.084,
     spin: 0.7,
     tilt: 0.05,
@@ -76,8 +78,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Saturn',
-    distance: 0.88,
-    scale: 0.08,
+    distance: 0.7,
+    scale: 0.024,
     speed: 0.034,
     spin: 0.65,
     tilt: 0.47,
@@ -86,8 +88,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Uranus',
-    distance: 1.04,
-    scale: 0.06,
+    distance: 0.84,
+    scale: 0.018,
     speed: 0.012,
     spin: 0.4,
     tilt: 1.71,
@@ -96,8 +98,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Neptune',
-    distance: 1.18,
-    scale: 0.058,
+    distance: 0.96,
+    scale: 0.018,
     speed: 0.006,
     spin: 0.45,
     tilt: 0.49,
@@ -106,8 +108,8 @@ const BODIES: Body[] = [
   },
   {
     name: 'Pluto',
-    distance: 1.3,
-    scale: 0.018,
+    distance: 1.06,
+    scale: 0.006,
     speed: 0.004,
     spin: 0.1,
     tilt: 2.1,
@@ -115,8 +117,6 @@ const BODIES: Body[] = [
     facts: ['Dwarf planet', 'Tombaugh Regio heart', 'Five known moons'],
   },
 ]
-
-const TRAIL_SEGMENTS = 64
 
 export default function OrbitPage() {
   const base = import.meta.env.BASE_URL
@@ -146,7 +146,6 @@ export default function OrbitPage() {
       <div className="reality-view">
         <Reality style={{ width: '100%', height: '100%' }}>
           <UnlitMaterial id="matMoon" color="#cfcfcf" />
-          <UnlitMaterial id="matTrail" color="#3a4a7a" />
 
           <ModelAsset id="mSun" src={`${base}modelasset/sun.usdz`} />
           {BODIES.map(b => (
@@ -161,7 +160,7 @@ export default function OrbitPage() {
             <AttachmentAsset key={`a${b.name}`} name={`a${b.name}`}>
               <div className="planet-chip">
                 <strong>{b.name}</strong>
-                {b.fact}
+                <span>{b.fact}</span>
               </div>
             </AttachmentAsset>
           ))}
@@ -183,7 +182,10 @@ export default function OrbitPage() {
               position={{ x: 0, y: 0, z: 0 }}
               rotation={{ x: 0, y: t * 0.05, z: 0 }}
             >
-              <ModelEntity model="mSun" scale={{ x: 0.2, y: 0.2, z: 0.2 }} />
+              <ModelEntity
+                model="mSun"
+                scale={{ x: SUN_SCALE, y: SUN_SCALE, z: SUN_SCALE }}
+              />
             </Entity>
 
             {BODIES.map(b => {
@@ -206,11 +208,11 @@ export default function OrbitPage() {
                   />
                   <AttachmentEntity
                     attachment={selected === b.name ? 'aSelected' : `a${b.name}`}
-                    position={[0, b.scale + 0.04, 0]}
+                    position={[0, b.scale + 0.05, 0]}
                     size={
                       selected === b.name
-                        ? { width: 0.24, height: 0.14 }
-                        : { width: 0.18, height: 0.05 }
+                        ? { width: 0.22, height: 0.16 }
+                        : { width: 0.16, height: 0.07 }
                     }
                   />
                   {b.name === 'Earth' && (
@@ -229,23 +231,6 @@ export default function OrbitPage() {
               )
             })}
 
-            {BODIES.map(b =>
-              Array.from({ length: TRAIL_SEGMENTS }).map((_, i) => {
-                const a = (i / TRAIL_SEGMENTS) * Math.PI * 2
-                return (
-                  <SphereEntity
-                    key={`trail-${b.name}-${i}`}
-                    radius={0.002}
-                    materials={['matTrail']}
-                    position={{
-                      x: Math.cos(a) * b.distance,
-                      y: 0,
-                      z: Math.sin(a) * b.distance,
-                    }}
-                  />
-                )
-              })
-            )}
           </SceneGraph>
         </Reality>
       </div>
