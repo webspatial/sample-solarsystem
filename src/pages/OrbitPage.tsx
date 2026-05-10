@@ -205,8 +205,8 @@ export default function OrbitPage() {
                     position={[0, b.scale + 0.05, 0]}
                     size={
                       selected === b.name
-                        ? { width: 0.22, height: 0.16 }
-                        : { width: 0.16, height: 0.07 }
+                        ? { width: 220, height: 160 }
+                        : { width: 160, height: 70 }
                     }
                   />
                   {b.name === 'Earth' && (
