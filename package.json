@@ -13,8 +13,8 @@
     "avp": "pnpm run build && webspatial-builder run --base=http://localhost:5173"
   },
   "dependencies": {
-    "@webspatial/core-sdk": "^1.5.0",
-    "@webspatial/react-sdk": "^1.5.0",
+    "@webspatial/core-sdk": "^1.6.1",
+    "@webspatial/react-sdk": "^1.6.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.6.0",
@@ -26,8 +26,8 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
-    "@webspatial/builder": "^1.5.0",
-    "@webspatial/platform-visionos": "^1.5.0",
+    "@webspatial/builder": "^1.6.1",
+    "@webspatial/platform-visionos": "^1.6.1",
     "@webspatial/vite-plugin": "^1.0.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
