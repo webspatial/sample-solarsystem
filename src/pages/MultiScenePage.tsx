@@ -12,10 +12,10 @@ export default function MultiScenePage() {
 
   const openScene = (name: 'overview' | 'inner' | 'outer' | 'sun', title: string) => {
     const sizes = {
-      overview: { width: 1.2, height: 0.8, depth: 0.15 },
-      inner: { width: 1, height: 0.7, depth: 0.12 },
-      outer: { width: 1.4, height: 0.9, depth: 0.15 },
-      sun: { width: 0.8, height: 0.6, depth: 0.1 },
+      overview: { width: 1.8, height: 1.2, depth: 0.5 },
+      inner: { width: 1.5, height: 1.0, depth: 0.45 },
+      outer: { width: 2.0, height: 1.3, depth: 0.5 },
+      sun: { width: 1.2, height: 1.0, depth: 0.45 },
     }
     initScene(
       title,
