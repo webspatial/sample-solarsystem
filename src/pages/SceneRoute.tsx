@@ -26,6 +26,7 @@ type SceneDef = {
   blurb: string
   sunX: number
   sunScale: number
+  zoom: number
   planets: Planet[]
 }
 
@@ -39,53 +40,58 @@ const URANUS = { name: 'Uranus', scale: 0.018, spin: 0.6, color: '#4FD0E3', fact
 const NEPTUNE = { name: 'Neptune', scale: 0.018, spin: 0.65, color: '#4B70DD', fact: 'Supersonic winds' }
 
 /* Distances are meters inside the volume; each scene's line-up must stay
-   within the volume bounds requested in MultiScenePage (widths 0.8-1.4m). */
+   within the volume bounds requested in MultiScenePage (widths 1.2-2.0m).
+   zoom multiplies the shared planet scales so each scene fills its volume. */
 const SCENES: Record<string, SceneDef> = {
   overview: {
     title: 'Solar System Overview',
     blurb: 'All eight planets in one sweep, from sun-scorched Mercury to distant Neptune.',
-    sunX: -0.45,
-    sunScale: 0.03,
+    sunX: -0.67,
+    sunScale: 0.045,
+    zoom: 1.5,
     planets: [
-      { ...MERCURY, distance: 0.15 },
-      { ...VENUS, distance: 0.24 },
-      { ...EARTH, distance: 0.33 },
-      { ...MARS, distance: 0.42 },
-      { ...JUPITER, distance: 0.58 },
-      { ...SATURN, distance: 0.72 },
-      { ...URANUS, distance: 0.87 },
-      { ...NEPTUNE, distance: 1.0 },
+      { ...MERCURY, distance: 0.22 },
+      { ...VENUS, distance: 0.36 },
+      { ...EARTH, distance: 0.5 },
+      { ...MARS, distance: 0.63 },
+      { ...JUPITER, distance: 0.87 },
+      { ...SATURN, distance: 1.08 },
+      { ...URANUS, distance: 1.3 },
+      { ...NEPTUNE, distance: 1.5 },
     ],
   },
   inner: {
     title: 'Inner Planets',
     blurb: 'The four rocky worlds huddled close to the Sun.',
-    sunX: -0.32,
-    sunScale: 0.035,
+    sunX: -0.48,
+    sunScale: 0.055,
+    zoom: 2,
     planets: [
-      { ...MERCURY, distance: 0.2 },
-      { ...VENUS, distance: 0.36 },
-      { ...EARTH, distance: 0.52 },
-      { ...MARS, distance: 0.68 },
+      { ...MERCURY, distance: 0.3 },
+      { ...VENUS, distance: 0.54 },
+      { ...EARTH, distance: 0.78 },
+      { ...MARS, distance: 1.02 },
     ],
   },
   outer: {
     title: 'Outer Planets',
     blurb: 'The gas and ice giants of the far solar system.',
-    sunX: -0.52,
-    sunScale: 0.035,
+    sunX: -0.75,
+    sunScale: 0.05,
+    zoom: 1.6,
     planets: [
-      { ...JUPITER, distance: 0.3 },
-      { ...SATURN, distance: 0.58 },
-      { ...URANUS, distance: 0.86 },
-      { ...NEPTUNE, distance: 1.12 },
+      { ...JUPITER, distance: 0.42 },
+      { ...SATURN, distance: 0.82 },
+      { ...URANUS, distance: 1.22 },
+      { ...NEPTUNE, distance: 1.6 },
     ],
   },
   sun: {
     title: 'The Sun',
     blurb: 'Our star up close — 99.8% of the solar system’s mass.',
     sunX: 0,
-    sunScale: 0.05,
+    sunScale: 0.09,
+    zoom: 1,
     planets: [],
   },
 }
@@ -144,20 +150,23 @@ function SpatialScene({ id, def }: { id: string; def: SceneDef }) {
             scale={{ x: def.sunScale, y: def.sunScale, z: def.sunScale }}
           />
 
-          {def.planets.map(p => (
-            <Entity key={p.name} position={{ x: def.sunX + p.distance, y: 0, z: 0 }}>
-              <ModelEntity
-                model={`m${p.name}`}
-                rotation={{ x: 0, y: t * p.spin, z: 0 }}
-                scale={{ x: p.scale, y: p.scale, z: p.scale }}
-              />
-              <AttachmentEntity
-                attachment={`a${p.name}`}
-                position={[0, p.scale * 2 + 0.05, 0]}
-                size={{ width: 150, height: 64 }}
-              />
-            </Entity>
-          ))}
+          {def.planets.map(p => {
+            const s = p.scale * def.zoom
+            return (
+              <Entity key={p.name} position={{ x: def.sunX + p.distance, y: 0, z: 0 }}>
+                <ModelEntity
+                  model={`m${p.name}`}
+                  rotation={{ x: 0, y: t * p.spin, z: 0 }}
+                  scale={{ x: s, y: s, z: s }}
+                />
+                <AttachmentEntity
+                  attachment={`a${p.name}`}
+                  position={[0, s * 2 + 0.07, 0]}
+                  size={{ width: 160, height: 68 }}
+                />
+              </Entity>
+            )
+          })}
 
           {id === 'sun' && (
             <>
@@ -168,13 +177,13 @@ function SpatialScene({ id, def }: { id: string; def: SceneDef }) {
                 return (
                   <Entity
                     key={i}
-                    position={{ x: Math.cos(a) * 0.2, y: Math.sin(a) * 0.2, z: 0 }}
+                    position={{ x: Math.cos(a) * 0.32, y: Math.sin(a) * 0.32, z: 0 }}
                   >
-                    <SphereEntity radius={0.015} materials={['matFlare']} />
+                    <SphereEntity radius={0.024} materials={['matFlare']} />
                   </Entity>
                 )
               })}
-              <AttachmentEntity attachment="aSun" position={[0, 0.26, 0]} size={{ width: 210, height: 64 }} />
+              <AttachmentEntity attachment="aSun" position={[0, 0.42, 0]} size={{ width: 210, height: 64 }} />
             </>
           )}
         </SceneGraph>
