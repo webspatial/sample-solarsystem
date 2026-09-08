@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage'
 import MultiScenePage from './pages/MultiScenePage'
 import ModelsPage from './pages/ModelsPage'
 import OrbitPage from './pages/OrbitPage'
+import PlanetPage from './pages/PlanetPage'
 import SceneRoute from './pages/SceneRoute'
 
 const b = import.meta.env.BASE_URL
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/models" element={<ModelsPage />} />
         <Route path="/multi" element={<MultiScenePage />} />
         <Route path="/scene/:id" element={<SceneRoute />} />
+        <Route path="/planet/:name" element={<PlanetPage />} />
       </Routes>
     </BrowserRouter>
   )
