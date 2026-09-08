@@ -1,33 +1,28 @@
 import { Link } from 'react-router'
-import { initScene } from '@webspatial/react-sdk'
+import { openVolume, type VolumeSize } from '../lib/spatial'
 
-function openSceneUrl(path: string): string {
-  return new URL(path, `${window.location.origin}${import.meta.env.BASE_URL}`).toString()
+type SceneName = 'overview' | 'inner' | 'outer' | 'sun'
+
+const SCENES: Record<SceneName, { title: string; size: VolumeSize }> = {
+  overview: { title: 'SolarOverview', size: { width: 1.8, height: 1.2, depth: 0.5 } },
+  inner: { title: 'InnerPlanets', size: { width: 1.5, height: 1.0, depth: 0.45 } },
+  outer: { title: 'OuterPlanets', size: { width: 2.0, height: 1.3, depth: 0.5 } },
+  sun: { title: 'SunFocus', size: { width: 1.2, height: 1.0, depth: 0.45 } },
 }
 
 export default function MultiScenePage() {
-  const openPage = (path: string, title: string) => {
-    window.open(openSceneUrl(path), title)
-  }
-
-  const openScene = (name: 'overview' | 'inner' | 'outer' | 'sun', title: string) => {
-    const sizes = {
-      overview: { width: 1.8, height: 1.2, depth: 0.5 },
-      inner: { width: 1.5, height: 1.0, depth: 0.45 },
-      outer: { width: 2.0, height: 1.3, depth: 0.5 },
-      sun: { width: 1.2, height: 1.0, depth: 0.45 },
-    }
-    initScene(
-      title,
-      () => ({
-        defaultSize: sizes[name],
-        worldScaling: 'automatic',
-        worldAlignment: 'automatic',
-        baseplateVisibility: 'hidden',
-      }),
-      { type: 'volume' },
-    )
-    openPage(`scene/${name}`, title)
+  const openScene = (name: SceneName) => {
+    const def = SCENES[name]
+    openVolume(`scene/${name}`, def.title, {
+      size: def.size,
+      /* The overview behaves like a tabletop model: it stays upright and can be
+         resized, and the line-up rescales with the volume. */
+      worldAlignment: name === 'overview' ? 'gravityAligned' : 'automatic',
+      resizability:
+        name === 'overview'
+          ? { minWidth: 1.0, minHeight: 0.7, maxWidth: 3.0, maxHeight: 2.0 }
+          : undefined,
+    })
   }
 
   return (
@@ -35,25 +30,24 @@ export default function MultiScenePage() {
       <Link to="/" className="back">
         ← Back
       </Link>
-      <button type="button" className="chip" onClick={() => {
-        openScene('overview', 'SolarOverview')
-        openScene('inner', 'InnerPlanets')
-        openScene('outer', 'OuterPlanets')
-        openScene('sun', 'SunFocus')
-      }}>
+      <button
+        type="button"
+        className="chip"
+        onClick={() => (Object.keys(SCENES) as SceneName[]).forEach(openScene)}
+      >
         Open all scenes
       </button>
       <div className="row">
-        <button type="button" className="chip" onClick={() => openScene('overview', 'SolarOverview')}>
+        <button type="button" className="chip" onClick={() => openScene('overview')}>
           Overview
         </button>
-        <button type="button" className="chip" onClick={() => openScene('inner', 'InnerPlanets')}>
+        <button type="button" className="chip" onClick={() => openScene('inner')}>
           Inner
         </button>
-        <button type="button" className="chip" onClick={() => openScene('outer', 'OuterPlanets')}>
+        <button type="button" className="chip" onClick={() => openScene('outer')}>
           Outer
         </button>
-        <button type="button" className="chip" onClick={() => openScene('sun', 'SunFocus')}>
+        <button type="button" className="chip" onClick={() => openScene('sun')}>
           Sun
         </button>
       </div>

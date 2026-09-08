@@ -236,3 +236,104 @@ html.isSpatial {
 .scene-card .nav a {
   color: #9db4ff;
 }
+
+/* Orbit page toolbar */
+.orbit-bar {
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.orbit-bar .back {
+  margin-bottom: 0;
+}
+
+.orbit-hint {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Controls rendered inside attachments (HTML floating in the 3D scene) */
+.planet-chip--panel {
+  gap: 4px;
+}
+
+.panel-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chip--mini {
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.chip--mini[data-active='true'] {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.chip--accent {
+  border-color: #9db4ff;
+  color: #cdd8ff;
+}
+
+.planet-chip--hud {
+  background: rgba(15, 18, 36, 0.55);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.planet-facts {
+  margin: 0;
+  padding-left: 1.1rem;
+  align-self: center;
+  line-height: 1.6;
+}
+
+/* Home launcher: spatialized cards stepped in Z via --xr-back */
+.launcher {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.launch-card {
+  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+  border-radius: 14px;
+  --xr-background-material: thin;
+}
+
+.launch-card:nth-child(1) {
+  --xr-back: 60;
+}
+
+.launch-card:nth-child(2) {
+  --xr-back: 40;
+}
+
+.launch-card:nth-child(3) {
+  --xr-back: 20;
+}
+
+.launch-card a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.launch-card strong {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.launch-card span {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
